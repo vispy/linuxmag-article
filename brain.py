@@ -65,7 +65,13 @@ void main()
     // 2. The color/intensities of the light: light.intensities
     // 3. The texture and texture coord: texture(tex, fragTexCoord)
 
-    gl_FragColor = v_color * brightness * vec4(u_light_intensity, 1);
+    // Specular lighting.
+    vec3 surfaceToCamera = vec3(0.0, 0.0, 1.0) - position;
+    vec3 K = normalize(normalize(surfaceToLight) + normalize(surfaceToCamera));
+    float specular = clamp(pow(abs(dot(normal, K)), 40.), 0.0, 1.0);
+    
+    gl_FragColor = v_color * brightness * vec4(u_light_intensity, 1) +
+                   specular * vec4(1.0, 1.0, 1.0, 1.0);
 }
 """
 
