@@ -12,7 +12,6 @@ from vispy.util.transforms import perspective, translate, rotate
 from vispy.util import get_data_file
 
 vertex = """
-#version 120
 
 uniform mat4 u_model;
 uniform mat4 u_view;
@@ -54,7 +53,6 @@ void main (void) {
 """
 
 fragment = """
-#version 120
 
 uniform mat4 u_model;
 uniform mat4 u_view;

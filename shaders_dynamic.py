@@ -10,7 +10,6 @@ position[1::2,1] = .2
 color = np.linspace(0., 1., 2*n).astype(np.float32)
 
 VERT_SHADER = """
-#version 120
 
 attribute vec2 a_position;
 
@@ -29,7 +28,6 @@ void main (void) {
 """
 
 FRAG_SHADER = """
-#version 120
 
 uniform float u_time;
 
