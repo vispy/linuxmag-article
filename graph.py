@@ -8,9 +8,8 @@ import networkx as nx
 
 
 
-n = 100
-# g = nx.watts_strogatz_graph(n, 3, 0.5)
-g = nx.gnp_random_graph(n, 0.04)
+n = 50
+g = nx.watts_strogatz_graph(n, 4, 0.25)
 M = nx.adjacency_matrix(g)
 Ms = M.sum(axis=1)
 positions = nx.spring_layout(g)
