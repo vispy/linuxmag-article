@@ -10,6 +10,7 @@ position[1::2,1] = .2
 color = np.linspace(0., 1., 2*n).astype(np.float32)
 
 VERT_SHADER = """
+const float M_PI = 3.14159265358979323846;
 
 attribute vec2 a_position;
 
@@ -20,8 +21,8 @@ uniform float u_time;
 
 void main (void) {
     float x = a_position.x;
-    float y = a_position.y + .1 * cos(2*3.1415*(u_time-.5*x));
-    
+    float y = a_position.y + .1 * cos(2.0*M_PI*(u_time-.5*x));
+
     gl_Position = vec4(x, y, 0.0, 1.0);
     v_color = a_color;
 }
@@ -45,7 +46,7 @@ class Canvas(app.Canvas):
         self.program = gloo.Program(VERT_SHADER, FRAG_SHADER)
         self.program['a_position'] = gloo.VertexBuffer(position)
         self.program['a_color'] = gloo.VertexBuffer(color)
-        
+
         self._timer = app.Timer(1.0 / 60)
         self._timer.connect(self.on_timer)
         self._timer.start()
@@ -57,7 +58,7 @@ class Canvas(app.Canvas):
     def on_paint(self, event):
         gloo.clear(color=(0.0, 0.0, 0.0, 1.0))
         self.program.draw('triangle_strip')
-        
+
     def on_timer(self, event):
         self.program['u_time'] = event.iteration * 1./60
         self.update()
