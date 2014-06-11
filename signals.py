@@ -70,7 +70,7 @@ class Canvas(app.Canvas):
         self.width, self.height = event.size
         gloo.set_viewport(0, 0, self.width, self.height)
 
-    def on_paint(self, event):
+    def on_draw(self, event):
         gloo.clear(color=(0.0, 0.0, 0.0, 1.0))
         self.program.draw('line_strip')
 
