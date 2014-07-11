@@ -11,3 +11,10 @@ Il s'agit de preuves de concept: le code sera refactorisé en composants réutilis
 * Une fois le dépôt clôné (`git clone https://github.com/vispy/vispy.git`), installez Vispy avec `python setup.py install`.
 * Me contacter pour toute question! (cyrille *dot* rossant *chez* gmail *dot* com)
 
+### Utilisation
+
+Dans la plupart des exemples, vous pouvez:
+
+* maintenir le bouton gauche + déplacement pour vous déplacer
+* maintenir le bouton droit + déplacement pour zoomer
+* utiliser la molette de la souris pour zoomer
