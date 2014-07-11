@@ -81,30 +81,40 @@ class Canvas(app.Canvas):
         gloo.set_state(clear_color=(1, 1, 1, 1), blend=True, 
                        blend_func=('src_alpha', 'one_minus_src_alpha'))
 
-    def on_mouse_move(self, event):
+    def _normalize(self, (x, y)):
+        w, h = float(self.width), float(self.height)
+        return x/(w/2.)-1., y/(h/2.)-1.
+    
+    def pan(self, (dx, dy)):
+        pan_x, pan_y = self.program['u_pan']
+        scale_x, scale_y = self.program['u_scale']
+        self.program['u_pan'] = (pan_x+dx/scale_x, pan_y+dy/scale_y)
+        self.update()
         
-        def _normalize((x, y)):
-            w, h = float(self.width), float(self.height)
-            return x/(w/2.)-1., y/(h/2.)-1.
-            
+    def zoom(self, (dx, dy), (x0, y0)=(0,0)):
+        pan_x, pan_y = self.program['u_pan']
+        scale_x, scale_y = self.program['u_scale']
+        scale_x_new, scale_y_new = scale_x * exp(2.5*dx), scale_y * exp(2.5*dy)
+        self.program['u_scale'] = (scale_x_new, scale_y_new)
+        self.program['u_pan'] = (pan_x - x0 * (1./scale_x - 1./scale_x_new), 
+                                 pan_y + y0 * (1./scale_y - 1./scale_y_new))
+        self.update()
+                       
+    def on_mouse_move(self, event):
         if event.is_dragging:
-            x0, y0 = _normalize(event.press_event.pos)
-            x1, y1 = _normalize(event.last_event.pos)
-            x, y = _normalize(event.pos)
+            x0, y0 = self._normalize(event.press_event.pos)
+            x1, y1 =self. _normalize(event.last_event.pos)
+            x, y = self._normalize(event.pos)
             dx, dy = x - x1, -(y - y1)
             button = event.press_event.button
-            
-            pan_x, pan_y = self.program['u_pan']
-            scale_x, scale_y = self.program['u_scale']
-            
             if button == 1:
-                self.program['u_pan'] = (pan_x+dx/scale_x, pan_y+dy/scale_y)
+                self.pan((dx, dy))
             elif button == 2:
-                scale_x_new, scale_y_new = scale_x * exp(2.5*dx), scale_y * exp(2.5*dy)
-                self.program['u_scale'] = (scale_x_new, scale_y_new)
-                self.program['u_pan'] = (pan_x - x0 * (1./scale_x - 1./scale_x_new), 
-                                         pan_y + y0 * (1./scale_y - 1./scale_y_new))
-            self.update()
+                self.zoom((dx, dy), (x0, y0))
+        
+    def on_mouse_wheel(self, event):
+        d = event.delta[1] * .1
+        self.zoom((d, d))
         
     def on_resize(self, event):
         self.width, self.height = event.size
