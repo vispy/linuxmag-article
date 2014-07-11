@@ -9,6 +9,7 @@ v_color = np.random.uniform(0, 1, (n, 3)).astype(np.float32)
 v_size = np.random.uniform(2, 12, (n, 1)).astype(np.float32)
 
 VERT_SHADER = """
+#version 120
 attribute vec2 a_position;
 attribute vec3 a_color;
 attribute float a_size;
@@ -36,7 +37,7 @@ void main (void) {
 """
 
 FRAG_SHADER = """
-
+#version 120
 varying vec4 v_fg_color;
 varying vec4 v_bg_color;
 varying float v_radius;

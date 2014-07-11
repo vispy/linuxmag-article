@@ -62,6 +62,7 @@ data['a_size'] = size
 
 
 VERT_SHADER = """
+#version 120
 attribute vec2 a_position;
 attribute vec3 a_color;
 attribute float a_size;
@@ -90,7 +91,7 @@ void main (void) {
 """
 
 FRAG_SHADER = """
-
+#version 120
 varying vec4 v_fg_color;
 varying vec4 v_bg_color;
 varying float v_radius;

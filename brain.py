@@ -10,6 +10,7 @@ data = brain['vertex_buffer']
 faces = brain['index_buffer']
     
 VERT_SHADER = """
+#version 120
 uniform mat4 u_model;
 uniform mat4 u_view;
 uniform mat4 u_projection;
@@ -33,6 +34,7 @@ void main()
 """
 
 FRAG_SHADER = """
+#version 120
 uniform mat4 u_model;
 uniform mat4 u_view;
 uniform mat4 u_normal;

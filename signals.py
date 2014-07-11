@@ -24,6 +24,7 @@ data['a_color'] = np.repeat(np.random.uniform(size=(m, 3), low=.5, high=.9), n, 
 data['a_index'] = np.repeat(np.arange(m), n)
 
 VERT_SHADER = """
+#version 120
 attribute vec2 a_position;
 attribute float a_index;
 varying float v_index;
@@ -44,6 +45,7 @@ void main() {
 """
 
 FRAG_SHADER = """
+#version 120
 varying vec3 v_color;
 varying float v_index;
 void main() {
